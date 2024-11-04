@@ -25,7 +25,7 @@ mongoose
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("MongoDB connection error:", err));
 
-// configure Winston Logger
+// configure Winston logger
 const logger = winston.createLogger({
   level: "info",
   format: winston.format.combine(
@@ -48,7 +48,7 @@ app.use(
   morgan(":method :url :status :response-time ms - :res[content-length]")
 );
 
-// custom API Logger Middleware
+// custom API logger middleware
 const apiLogger = (req, res, next) => {
   const start = Date.now();
   res.on("finish", () => {
@@ -67,3 +67,18 @@ const apiLogger = (req, res, next) => {
 };
 
 app.use(apiLogger);
+
+// error handling middleware
+app.use((err, req, res, next) => {
+  logger.error({
+    message: err.message,
+    stack: err.stack,
+    method: req.method,
+    path: req.path,
+    params: req.params,
+    query: req.query,
+    body: req.method !== "GET" ? req.body : undefined,
+  });
+
+  res.status(500).json({ message: "Internal server error" });
+});
