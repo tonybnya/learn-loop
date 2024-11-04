@@ -24,3 +24,22 @@ mongoose
   )
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("MongoDB connection error:", err));
+
+// configure Winston Logger
+const logger = winston.createLogger({
+  level: "info",
+  format: winston.format.combine(
+    winston.format.timestamp(),
+    winston.format.json()
+  ),
+  transports: [
+    new winston.transports.File({ filename: "error.log", level: "error" }),
+    new winston.transports.File({ filename: "combined.log" }),
+    new winston.transports.Console({
+      format: winston.format.combine(
+        winston.format.colorize(),
+        winston.format.simple()
+      ),
+    }),
+  ],
+});
