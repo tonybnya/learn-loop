@@ -324,3 +324,28 @@ app.delete("/api/students/:id", async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+
+// endpoint to search for a student
+app.get("/api/students/search", async (req, res) => {
+  try {
+    const searchTerm = req.query.q;
+    logger.info("Student search initiated:", { searchTerm });
+
+    const students = await Student.find({
+      $or: [
+        { name: { $regex: searchTerm, $options: "i" } },
+        { course: { $regex: searchTerm, $options: "i" } },
+        { email: { $regex: searchTerm, $options: "i" } },
+      ],
+    });
+
+    logger.info("Student search completed:", {
+      searchTerm,
+      resultsCount: students.length,
+    });
+    res.json(students);
+  } catch (error) {
+    logger.error("Error searching students:", error);
+    res.status(500).json({ message: error.message });
+  }
+});
