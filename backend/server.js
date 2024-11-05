@@ -325,6 +325,20 @@ app.delete("/api/students/:id", async (req, res) => {
   }
 });
 
+// get/retrieve a specific student by its ID
+app.get('/api/students/:id', async (req, res) => {
+    try {
+        const student = await Student.findById(req.params.id);
+        if (!student) {
+            return res.status(404).json({ message: 'Student not found' });
+        }
+        res.json(student);
+    } catch (error) {
+        logger.error('Error fetching student:', error);
+        res.status(500).json({ message: error.message });
+    }
+});
+
 // endpoint to search for a student
 app.get("/api/students/search", async (req, res) => {
   try {
