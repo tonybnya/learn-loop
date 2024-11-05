@@ -146,8 +146,9 @@ const courseSchema = new mongoose.Schema(
 // define a model for the course schema
 const Course  = mongoose.model("Course", courseSchema);
 
-// course routes/endpoints
+// routes/endpoints
 
+// 1. course endpoints
 // get/retrieve all the courses available in the MongoDB database
 app.get('/api/courses', async (req, res) =>{
    try {
@@ -241,6 +242,21 @@ app.get("/api/courses/:id", async (req, res) => {
     res.json(course);
   } catch (error) {
     logger.error("Error fetching course:", error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// 2. student endpoints
+// get/retrieve all the students registered in the MongoDB database
+app.get("/api/students", async (req, res) => {
+  try {
+    // sort the student by creation date
+    // the new student first
+    const students = await Student.find().sort({ createdAt: -1 });
+    logger.info(`Retrieved ${students.length} students successfully`);
+    res.json(students);
+  } catch (error) {
+    logger.error("Error fetching students:", error);
     res.status(500).json({ message: error.message });
   }
 });
