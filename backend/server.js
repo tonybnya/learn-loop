@@ -246,6 +246,7 @@ app.get("/api/courses/:id", async (req, res) => {
   }
 });
 
+
 // 2. student endpoints
 // get/retrieve all the students registered in the MongoDB database
 app.get("/api/students", async (req, res) => {
@@ -299,5 +300,27 @@ app.put("/api/students/:id", async (req, res) => {
   } catch (error) {
     logger.error("Error updating student:", error);
     res.status(400).json({ message: error.message });
+  }
+});
+
+// delete a registered student
+app.delete("/api/students/:id", async (req, res) => {
+  try {
+    const student = await Student.findByIdAndDelete(req.params.id);
+    if (!student) {
+      logger.warn("Student not found for deletion:", {
+        studentId: req.params.id,
+      });
+      return res.status(404).json({ message: "Student not found" });
+    }
+    logger.info("Student deleted successfully:", {
+      studentId: student._id,
+      name: student.name,
+      course: student.course,
+    });
+    res.json({ message: "Student deleted successfully" });
+  } catch (error) {
+    logger.error("Error deleting student:", error);
+    res.status(500).json({ message: error.message });
   }
 });
