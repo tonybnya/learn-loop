@@ -150,12 +150,28 @@ const Course  = mongoose.model("Course", courseSchema);
 
 // get/retrieve all the courses available in the MongoDB database
 app.get('/api/courses', async (req, res) =>{
-       try {
-         const courses = await Course.find().sort({ name: 1 });
-         logger.info(`${courses.length} courses retrieved successfully`);
-         res.json(courses);
-       } catch (error) {
-         logger.error("Error fetching courses:", error);
-         res.status(500).json({ message: error.message });
-       }
+   try {
+     const courses = await Course.find().sort({ name: 1 });
+     logger.info(`${courses.length} courses retrieved successfully`);
+     res.json(courses);
+   } catch (error) {
+     logger.error("Error fetching courses:", error);
+     res.status(500).json({ message: error.message });
+   }
 })
+
+// post/create a new course
+app.post("/api/courses", async (req, res) => {
+  try {
+    const course = new Course(req.body);
+    const savedCourse = await course.save();
+    logger.info("New course created:", {
+      courseId: savedCourse._id,
+      name: savedCourse.name,
+    });
+    res.status(201).json(savedCourse);
+  } catch (error) {
+    logger.error("Error creating course:", error);
+    res.status(400).json({ message: error.message });
+  }
+});
