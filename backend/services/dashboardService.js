@@ -2,8 +2,8 @@
 * helper function for dashboard stats
 */
 
-const Course = require("../models/Course");
-const Student = require("../models/Student");
+const Course = require("../models/courseModel");
+const Student = require("../models/studentModel");
 
 exports.getDashboardStats = async () => {
     const totalStudents = await Student.countDocuments();

@@ -36,4 +36,4 @@ const studentSchema = new mongoose.Schema(
 );
 
 // define and export a model for the course schema
-module.exports = mongoose.model("Student", StudentSchema);
+module.exports = mongoose.model("Student", studentSchema);

@@ -2,7 +2,7 @@
  * Student controller functions
 */
 
-const Student = require("../models/Student");
+const Student = require("../models/studentModel");
 const logger = require("../middlewares/logger");
 
 // get all the registered students

@@ -2,8 +2,8 @@
  * Course controller functions
 */
 
-const Course = require("../models/Course");
-const Student = require("../models/Student");
+const Course = require("../models/courseModel");
+const Student = require("../models/studentModel");
 const logger = require("../middlewares/logger");
 
 // get all the available courses
