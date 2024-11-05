@@ -82,3 +82,66 @@ app.use((err, req, res, next) => {
 
   res.status(500).json({ message: "Internal server error" });
 });
+
+// define the blueprint of the student document for the db
+const studentSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    course: {
+      type: String,
+      required: true,
+    },
+    enrollmentDate: {
+      type: Date,
+      required: true,
+    },
+    status: {
+      type: String,
+      enum: ["active", "inactive"],
+      default: "active",
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+// create a model for the student schema
+const Student = mongoose.model("Student", studentSchema);
+
+// define the blueprint of the course document for the db
+const courseSchema = new mongoose.Schema(
+    {
+        name:{
+            type: String,
+            required: true,
+            unique: true
+        },
+        description:{
+            type: String,
+            required: true
+        },
+        duration: {
+            type: Number,
+            required: true
+        },
+        status:{
+            type: String,
+            enum:["active", "inactive"],
+            default: "active"
+        }
+    },{
+        timestamps: true
+    }
+);
+
+// create a model for the course schema
+const Course  = mongoose.model("Course", courseSchema);
