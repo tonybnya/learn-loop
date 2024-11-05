@@ -277,3 +277,27 @@ app.post("/api/students", async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 });
+
+// put/update a registered student
+app.put("/api/students/:id", async (req, res) => {
+  try {
+    const student = await Student.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
+    if (!student) {
+      logger.warn("Student not found for update:", {
+        studentId: req.params.id,
+      });
+      return res.status(404).json({ message: "Student not found" });
+    }
+    logger.info("Student updated successfully:", {
+      studentId: student._id,
+      name: student.name,
+      course: student.course,
+    });
+    res.json(student);
+  } catch (error) {
+    logger.error("Error updating student:", error);
+    res.status(400).json({ message: error.message });
+  }
+});
