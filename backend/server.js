@@ -196,3 +196,37 @@ app.put("/api/courses/:id", async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 });
+
+// delete an existing course
+app.delete("/api/courses/:id", async (req, res) => {
+  try {
+    const enrolledStudents = await Student.countDocuments({
+      course: req.params.id,
+    });
+    if (enrolledStudents > 0) {
+      logger.warn("Attempted to delete course with enrolled students:", {
+        courseId: req.params.id,
+        enrolledStudents,
+      });
+      return res
+        .status(400)
+        .json({ message: "Cannot delete course with enrolled students" });
+    }
+
+    const course = await Course.findByIdAndDelete(req.params.id);
+    if (!course) {
+      logger.warn("Course not found for deletion:", {
+        courseId: req.params.id,
+      });
+      return res.status(404).json({ message: "Course not found" });
+    }
+    logger.info("Course deleted successfully:", {
+      courseId: course._id,
+      name: course.name,
+    });
+    res.json({ message: "Course deleted successfully" });
+  } catch (error) {
+    logger.error("Error deleting course:", error);
+    res.status(500).json({ message: error.message });
+  }
+});
