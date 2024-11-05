@@ -260,3 +260,20 @@ app.get("/api/students", async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+
+// post/register a new student
+app.post("/api/students", async (req, res) => {
+  try {
+    const student = new Student(req.body);
+    const savedStudent = await student.save();
+    logger.info("New student created:", {
+      studentId: savedStudent._id,
+      name: savedStudent.name,
+      course: savedStudent.course,
+    });
+    res.status(201).json(savedStudent);
+  } catch (error) {
+    logger.error("Error creating student:", error);
+    res.status(400).json({ message: error.message });
+  }
+});
