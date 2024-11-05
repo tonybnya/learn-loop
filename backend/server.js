@@ -114,7 +114,7 @@ const studentSchema = new mongoose.Schema(
   }
 );
 
-// create a model for the student schema
+// define a model for the student schema
 const Student = mongoose.model("Student", studentSchema);
 
 // define the blueprint of the course document for the db
@@ -143,5 +143,19 @@ const courseSchema = new mongoose.Schema(
     }
 );
 
-// create a model for the course schema
+// define a model for the course schema
 const Course  = mongoose.model("Course", courseSchema);
+
+// course routes/endpoints
+
+// get/retrieve all the courses available in the MongoDB database
+app.get('/api/courses', async (req, res) =>{
+       try {
+         const courses = await Course.find().sort({ name: 1 });
+         logger.info(`${courses.length} courses retrieved successfully`);
+         res.json(courses);
+       } catch (error) {
+         logger.error("Error fetching courses:", error);
+         res.status(500).json({ message: error.message });
+       }
+})
