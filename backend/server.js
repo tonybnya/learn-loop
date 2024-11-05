@@ -175,3 +175,24 @@ app.post("/api/courses", async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 });
+
+// put/update an existing course
+app.put("/api/courses/:id", async (req, res) => {
+  try {
+    const course = await Course.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
+    if (!course) {
+      logger.warn("Course not found for update:", { courseId: req.params.id });
+      return res.status(404).json({ message: "Course not found" });
+    }
+    logger.info("Course updated successfully:", {
+      courseId: course._id,
+      name: course.name,
+    });
+    res.json(course);
+  } catch (error) {
+    logger.error("Error updating course:", error);
+    res.status(400).json({ message: error.message });
+  }
+});
