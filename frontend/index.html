@@ -1,15 +1,55 @@
 <!doctype html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link href="./src/styles/output.css" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link href="./src/styles/output.css" rel="stylesheet" />
+  <link
+    rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+  <title>Learn Loop | Student Management Dashboard</title>
 </head>
 <body>
-  <i class="fa-solid fa-graduation-cap"></i>
-  <h1 class="text-3xl font-bold underline">
-    Hello world!
-  </h1>
+  <!-- main container -->
+  <div class="container">
+    <h1 class="underline font-bold text-4xl">hello</h1>
+    <!-- sidebar -->
+    <div class="sidebar">
+      <div class="brand flex">
+        <img src="/logo.png" class="logo w-10" alt="graduation logo">
+        <span class="text-4xl">LearnLoop</span>
+      </div>
+
+      <div class="nav-item active" data-section="dashboard">
+        <i class="fas fa-chart-pie"></i>
+        Dashboard
+      </div>
+
+      <div class="nav-item" data-section="students">
+        <i class="fas fa-users"></i>
+        Students
+      </div>
+
+      <div class="nav-item" data-section="courses">
+        <i class="fas fa-book"></i>
+        Courses
+      </div>
+
+      <div class="nav-item" data-section="reports">
+        <i class="fas fa-chart-bar"></i>
+        Reports
+      </div>
+
+      <div class="nav-item" data-section="settings">
+        <i class="fas fa-cog"></i>
+        Settings
+      </div>
+    </div>
+    <div class="main-content"></div>
+  </div>
 </body>
 </html>
